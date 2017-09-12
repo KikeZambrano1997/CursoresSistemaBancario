@@ -119,3 +119,31 @@ BEGIN
         END LOOP;
     END LOOP; 
 END;
+
+
+/*==============================================================*/
+/*==============================================================*/
+/*==============================================================*/
+
+DECLARE
+CURSOR C_NUMERO_PRES IS
+    SELECT DISTINCT NUMERO_PRES
+    FROM PAGO
+    ORDER BY NUMERO_PRES ;
+
+CURSOR C_PAGO(P_NUMERO_PRES INTEGER) IS 
+
+SELECT NUMERO_PAGO, FECHA_PAGO, VALOR_PAGO
+FROM PAGO
+WHERE NUMERO_PRES = P_NUMERO_PRES;
+
+BEGIN
+    FOR R_NUMERO_PRES IN C_NUMERO_PRES LOOP
+        DBMS_OUTPUT.PUT_LINE('NUMERO DE PRESTAMO');
+        DBMS_OUTPUT.PUT_LINE(R_NUMERO_PRES.NUMERO_PRES);
+        FOR R_PAGO IN C_PAGO(R_NUMERO_PRES.NUMERO_PRES)LOOP
+            DBMS_OUTPUT.PUT_LINE('PAGO');
+            DBMS_OUTPUT.PUT_LINE(R_PAGO.NUMERO_PAGO||', '||R_PAGO.FEChA_PAGO||', '||R_PAGO.VALOR_PAGO);
+        END LOOP;
+    END LOOP; 
+END;
